@@ -1,11 +1,11 @@
 name: aswdc_admob
 description: "A aswdc project for ad implementation."
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/aswdc/aswdc_admob.git
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=2.19.6 <4.0.0'
+
 
 dependencies:
   flutter:
