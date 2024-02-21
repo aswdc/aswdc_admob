@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       home: SafeArea(
         child: Scaffold(
           body: AdmobBannerAd(
-              widget: Expanded(
+              child: Expanded(
                   child: Container(
                     color: Colors.amber,
                     child: TextField(

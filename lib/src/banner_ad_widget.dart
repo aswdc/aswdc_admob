@@ -8,9 +8,9 @@ bool _keyboardVisible = false;
 late StreamSubscription<bool> keyboardSubscription;
 var keyboardVisibilityController = KeyboardVisibilityController();
 class AdmobBannerAd extends StatefulWidget {
-  AdmobBannerAd({super.key, required this.widget, required this.adUnitId});
+  AdmobBannerAd({super.key, required this.child, required this.adUnitId});
 
-  var widget;
+  var child;
   String adUnitId;
 
   @override
@@ -64,7 +64,7 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
           Expanded(
             child: KeyboardDismissOnTap(
               dismissOnCapturedTaps: true,
-              child: widget.widget,
+              child: widget.child,
             ),
             flex: 1,
           ),
