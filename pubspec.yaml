@@ -1,6 +1,6 @@
 name: aswdc_admob
 description: "A aswdc project for ad implementation."
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/aswdc/aswdc_admob.git
 
 environment:
@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_keyboard_visibility: ^5.4.1
   google_mobile_ads:
+  provider: ^6.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

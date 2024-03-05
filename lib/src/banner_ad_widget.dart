@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -7,6 +8,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 bool _keyboardVisible = false;
 late StreamSubscription<bool> keyboardSubscription;
 var keyboardVisibilityController = KeyboardVisibilityController();
+
 class AdmobBannerAd extends StatefulWidget {
   AdmobBannerAd({super.key, required this.child, required this.adUnitId});
 
@@ -17,9 +19,18 @@ class AdmobBannerAd extends StatefulWidget {
   State<AdmobBannerAd> createState() => _AdmobBannerAdState();
 }
 
+
+
 class _AdmobBannerAdState extends State<AdmobBannerAd> {
   BannerAd? _bannerAd;
+  AnchoredAdaptiveBannerAdSize? size;
+  bool _isLoaded = false;
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadAd();
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -28,8 +39,7 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
 
     // TODO: Load a banner ad
 
-
-    BannerAd(
+   /* BannerAd(
       adUnitId: widget.adUnitId,
       size: AdSize.largeBanner,
       request: AdRequest(),
@@ -45,16 +55,54 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
           print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
-    ).load();
+    ).load();*/
   }
+
+  Future<void> _loadAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+    await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.of(context).size.width.truncate());
+    print('$size Unable to get height of anchored banner.');
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    _bannerAd = BannerAd(
+      // TODO: replace these test ad units with your own ad unit.
+      adUnitId: widget.adUnitId,
+      size: size,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
+    );
+    return _bannerAd!.load();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     print('_bannerAd$_bannerAd');
     print('Keyboard1234$_keyboardVisible');
-    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+    keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() {
-        _keyboardVisible=visible;
+        _keyboardVisible = visible;
       });
       print('Keyboard visibility update. Is visible: $visible');
     });
@@ -68,16 +116,14 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
             ),
             flex: 1,
           ),
-          if (_bannerAd != null)
+          if (_bannerAd != null && _isLoaded)
             Visibility(
               visible: !_keyboardVisible,
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  margin: EdgeInsets.only(top: 2.0),
-                  color: Colors.black12,
-                  height: _bannerAd!.size.height.toDouble(),
                   width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
                   child: AdWidget(ad: _bannerAd!),
                 ),
               ),
@@ -89,9 +135,7 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
 
   @override
   void dispose() {
-    // TODO: Dispose a BannerAd object
-    if (_bannerAd != null) _bannerAd?.dispose();
-
     super.dispose();
+    _bannerAd?.dispose();
   }
 }
