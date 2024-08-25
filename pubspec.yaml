@@ -1,6 +1,6 @@
 name: aswdc_admob
 description: "A aswdc project for ad implementation."
-version: 1.0.7
+version: 1.0.8
 homepage: https://github.com/aswdc/aswdc_admob.git
 
 environment:
