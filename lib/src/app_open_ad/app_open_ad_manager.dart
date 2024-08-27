@@ -12,7 +12,7 @@ class AppOpenAdManager {
   void loadAd() {
     AppOpenAd.load(
       adUnitId: adUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
           _appOpenAd = ad;

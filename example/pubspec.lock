@@ -7,7 +7,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.7"
+    version: "1.0.9"
   async:
     dependency: transitive
     description:
@@ -136,7 +136,7 @@ packages:
     source: sdk
     version: "0.0.0"
   google_mobile_ads:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_mobile_ads
       sha256: e2d18992d30b2be77cb6976b931112fc3c4612feffb5eb7a8b036bd7a64934da
@@ -333,5 +333,5 @@ packages:
     source: hosted
     version: "3.15.0"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
+  dart: ">=3.5.1 <4.0.0"
   flutter: ">=3.24.0"

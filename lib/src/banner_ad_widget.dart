@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -73,7 +72,7 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
       // TODO: replace these test ad units with your own ad unit.
       adUnitId: widget.adUnitId,
       size: size,
-      request: AdRequest(),
+      request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
           print('$ad loaded: ${ad.responseInfo}');
@@ -110,18 +109,18 @@ class _AdmobBannerAdState extends State<AdmobBannerAd> {
       child: Column(
         children: [
           Expanded(
+            flex: 1,
             child: KeyboardDismissOnTap(
               dismissOnCapturedTaps: true,
               child: widget.child,
             ),
-            flex: 1,
           ),
           if (_bannerAd != null && _isLoaded)
             Visibility(
               visible: !_keyboardVisible,
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Container(
+                child: SizedBox(
                   width: _bannerAd!.size.width.toDouble(),
                   height: _bannerAd!.size.height.toDouble(),
                   child: AdWidget(ad: _bannerAd!),

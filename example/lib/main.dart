@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -40,17 +40,17 @@ class _MyAppState extends State<MyApp> {
       home: SafeArea(
         child: Scaffold(
           body: AdmobBannerAd(
+              adUnitId: 'ca-app-pub-3940256099942544/6300978111',
               child: Expanded(
                   child: Container(
                     color: Colors.amber,
-                    child: TextField(
+                    child: const TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Enter a search term',
                       ),
                     ),
-                  )),
-              adUnitId: 'ca-app-pub-3940256099942544/6300978111'),
+                  ))),
         ),
       ),
     );
